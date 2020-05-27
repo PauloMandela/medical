@@ -7,8 +7,10 @@
 1. Vars and Inits
 2. Set Header
 3. Init Menu
-4. Init Milestones
-5. Init Testimonials Slider
+4. Init Home Slider
+5. Init Date Picker
+6. Init Select
+7. Init Milestones
 
 
 ******************************/
@@ -44,8 +46,10 @@ $(document).ready(function()
 	});
 
 	initMenu();
+	initHomeSlider();
+	initDatePicker();
+	initSelect();
 	initMilestones();
-	initTestSlider();
 
 	/* 
 
@@ -99,7 +103,83 @@ $(document).ready(function()
 
 	/* 
 
-	4. Init Milestones
+	4. Init Home Slider
+
+	*/
+
+	function initHomeSlider()
+	{
+		if($('.home_slider').length)
+		{
+			var homeSlider = $('.home_slider');
+			homeSlider.owlCarousel(
+			{
+				items:1,
+				autoplay:true,
+				loop:true,
+				nav:false,
+				smartSpeed:1200,
+				mouseDrag:false,
+				dotsContainer:'home_slider_custom_dots'
+			});
+
+			/* Custom dots events */
+			if($('.home_slider_custom_dot').length)
+			{
+				$('.home_slider_custom_dot').on('click', function()
+				{
+					$('.home_slider_custom_dot').removeClass('active');
+					$(this).addClass('active');
+					homeSlider.trigger('to.owl.carousel', [$(this).index(), 300]);
+				});
+			}
+
+			/* Change active class for dots when slide changes by nav or touch */
+			homeSlider.on('changed.owl.carousel', function(event)
+			{
+				$('.home_slider_custom_dot').removeClass('active');
+				$('.home_slider_custom_dots li').eq(event.page.index).addClass('active');
+			});
+		}
+	}
+
+	/* 
+
+	5. Init Date Picker
+
+	*/
+
+	function initDatePicker()
+	{
+		var dp = $('#datepicker');
+		dp.datepicker();
+	}
+
+	/* 
+
+	6. Init Select
+
+	*/
+
+	function initSelect()
+	{
+		if($('.intro_select').length)
+		{
+			var select = $('.intro_select');
+			select.each(function()
+			{
+				var selected = $(this);
+				selected.change(function()
+				{
+					selected.addClass('selected');
+				});
+			});
+		}
+	}
+
+	/* 
+
+	7. Init Milestones
 
 	*/
 
@@ -151,28 +231,6 @@ $(document).ready(function()
 		    	})
 			    .addTo(ctrl);
 	    	});
-		}
-	}
-
-	/* 
-
-	5. Init Testimonials Slider
-
-	*/
-
-	function initTestSlider()
-	{
-		if($('.test_slider').length)
-		{
-			var testSlider = $('.test_slider');
-			testSlider.owlCarousel(
-			{
-				items:1,
-				autoplay:false,
-				loop:true,
-				dots:true,
-				smartSpeed:1200
-			});
 		}
 	}
 
